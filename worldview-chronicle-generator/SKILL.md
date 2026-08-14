@@ -1,250 +1,369 @@
 ---
 name: worldview-chronicle-generator
-description: 自动化世界观编年史生成系统。交互式询问用户期望的故事世界观类型（奇幻、科幻、历史架空等）与时间跨度，生成世界观框架、关键情节、社会面貌描绘，最终整合输出完整的编年史文档。触发词：世界观构建、编年史生成、世界观编年史、故事世界观设计、世界观文档、构建世界观、世界观框架。
-agent_created: true
+version: 1.0.0
+description: Automated worldview and chronicle generation system for storytelling. Interactively collects world type (fantasy, sci-fi, historical alternate, etc.) and timeline span, then generates a complete worldview chronicle through four modules — world framework, key plots, 16-dimension social portrait, and final integrated chronicle document. Trigger phrases - worldview building, chronicle generation, world design, story worldview, worldbuilding, worldview framework, 世界观构建, 编年史生成, 世界观设计, 世界观文档.
+tags: [creative-writing, worldbuilding, storytelling, chronicle, lore]
 ---
 
-# 世界观编年史生成系统
+# Worldview Chronicle Generation System
 
-自动化生成完整的故事世界观编年史文档，包含世界观框架、关键情节、社会面貌三大基础模块，以及最终的编年史整合输出。
+An automated four-module pipeline that builds a complete fictional worldview and generates a full-length chronicle document (~100,000 characters by default).
 
-## 核心模块
+## When to Use This Skill
 
-本系统包含四个核心模块，按顺序执行：
+Activate when the user expresses any of these intents:
 
-1. **世界观构建模块** — 生为主体框架与时间轴
-2. **关键情节生成模块** — 生成各节点叙事内容
-3. **社会面貌描绘模块** — 生成十六维度社会全景描述
-4. **编年史整合输出模块** — 整合为完整文档
+- "Help me build a worldview / 帮我构建一个世界观"
+- "Design a story world / 设计一个故事的世界观"
+- "Generate a chronicle / 生成编年史"
+- "Worldview chronicle / 世界观编年史"
+- "Build a fantasy/sci-fi world / 构建奇幻/科幻世界观"
+- "Worldbuilding / lore creation"
+- Any request to create fictional setting, history, lore, or timeline for narrative purposes
 
-## 执行流程
+## Core Architecture
 
-### 模块一：世界观构建
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                                                                 │
+│  Module 1        Module 2        Module 3         Module 4      │
+│  World Framework → Key Plots  → Social Portrait → Chronicle    │
+│                                                                 │
+│  world.md         plots.md        society.md       chronicle.md │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
 
-**输入收集：** 交互式询问用户以下信息：
+The system operates as a **sequential pipeline** where each module builds on the previous output. All four modules execute in order, producing independent Markdown files at each stage.
 
-1. **世界观类型** — 奇幻、科幻、历史架空、末世、都市幻想、玄幻、武侠、蒸汽朋克、赛博朋克、神话重构等
-2. **时间跨度** — 编年史覆盖的总年限（如：三千年、一万年、五百年等）
-3. **核心主题** — 故事的核心矛盾或母题（如：神与人之战、文明轮回、秩序与混沌等，可选）
-4. **特殊需求** — 用户对世界观的特殊设定（可选）
+## Execution Protocol
 
-**生成内容：**
+### Phase 0: Requirements Gathering
 
-- 世界观核心设定（物理规则、超自然力量体系、种族/物种构成、地理格局）
-- 主体框架概述（300-500字）
-- 关键时间节点时间轴（至少8-12个节点，每个节点包含：时间点名称、公元/纪年标记、标志性事件简述）
+Collect the following from the user through interactive dialogue. Use your platform's native interaction mechanism (questions, prompts, forms) — adapt to whatever input method is available.
 
-**输出文件：** `世界观框架.md`
+**Required inputs:**
+
+| Input | Description | Examples |
+|-------|-------------|----------|
+| World type | Genre / setting type | Fantasy, sci-fi, historical, post-apocalyptic, urban fantasy, wuxia, steampunk, cyberpunk, mythic |
+| Timeline span | Total years covered | 500 years, 3,000 years, 10,000 years |
+| Core theme | Central conflict or motif | Gods vs humanity, civilization cycle, order vs chaos |
+
+**Optional inputs:**
+
+| Input | Description |
+|-------|-------------|
+| Special lore | Any pre-existing worldbuilding constraints |
+| Style preference | Epic / documentary / biographical (default: epic) |
+| Target length | Total character count (default: ~100,000) |
+| Era emphasis | Specific periods to expand or condense |
+
+**Interaction style:** Ask one or two questions at a time rather than presenting a long form. Start with world type and timeline, then proceed to theme and optional parameters.
+
+---
+
+### Module 1: World Framework
+
+**Goal:** Produce the skeletal structure of the world.
+
+**Process:**
+
+1. Design core world settings:
+   - Physical laws and natural rules
+   - Supernatural / magic / psionic power system (if applicable)
+   - Races / species / civilizations
+   - Geographic layout and key regions
+2. Write a 300–500 word overview of the world's narrative arc
+3. Create a timeline with **8–12 key nodes**, each containing:
+   - Node name / era label
+   - Year / chronological marker
+   - One-sentence event description
+
+**Output file:** `world.md`
 
 ```markdown
-# 世界观框架
+# World Framework
 
-## 基本信息
-- 类型：[世界观类型]
-- 时间跨度：[X年]
-- 核心主题：[主题]
+## Basic Information
+- Type: [World type]
+- Timeline: [X years]
+- Core theme: [Theme]
 
-## 核心设定
-[详细设定描述]
+## Core Settings
+[Detailed description of physical laws, power systems, races, geography]
 
-## 主体框架概述
-[300-500字概述]
+## Overview
+[300–500 word narrative overview]
 
-## 关键时间节点时间轴
+## Timeline
 
-| 时间节点 | 纪年标记 | 标志性事件 |
-|--------|---------|-----------|
-| [节点1] | [年份] | [事件] |
+| Node | Year | Event |
+|------|------|-------|
+| [Node 1] | [Year] | [Event] |
 | ... | ... | ... |
 ```
 
-### 模块二：关键情节生成
-
-**输入：** 读取 `世界观框架.md` 中的时间轴节点，依次为每个节点生成详细叙事内容。
-
-**每个节点包含：**
-
-1. **事件经过** — 500-800字，完整的事件叙述
-2. **核心人物** — 2-4个关键角色，含姓名、身份、动机、关键行动
-3. **转折点分析** — 200-300字，该事件对世界观历史走向的影响
-4. **历史余波** — 100-200字，后续影响与连锁反应
-
-**输出文件：** `关键情节.md`
-
-```markdown
-# 关键情节
-
-## 节点一：[时间节点名称]
-**纪年：** [年份]
-**事件经过：**
-[500-800字完整叙述]
-
-**核心人物：**
-- **[姓名]**：[身份]，[动机]，[关键行动]
-
-**转折点分析：**
-[200-300字分析]
-
-**历史余波：**
-[100-200字后续影响]
+**Checkpoint:** Display the framework summary and timeline to the user. Ask whether to adjust node count or direction before proceeding.
 
 ---
 
-[后续节点依此格式重复...]
-```
+### Module 2: Key Plot Generation
 
-### 模块三：社会面貌描绘
+**Goal:** Expand each timeline node into a full narrative episode.
 
-**输入：** 读取 `世界观框架.md` 和 `关键情节.md`，依据时间轴为各时期节点生成全景式社会描述。
+**Input:** Read `world.md` timeline nodes.
 
-**十六个维度（每个时期节点均需覆盖）：**
+**For each node, generate:**
 
-读取 `references/社会面貌维度指南.md` 获取各维度的详细描述指南，确保生成内容的专业性和深度。
+| Component | Length | Content |
+|-----------|--------|---------|
+| Event narrative | 500–800 words | Full event description with vivid scenes and turning points |
+| Key characters | 2–4 characters | Name, identity, motivation, pivotal actions |
+| Turning point analysis | 200–300 words | How this event redirected the world's historical trajectory |
+| Historical ripple | 100–200 words | Chain reactions and downstream consequences |
 
-每个时期节点的社会面貌描述需包含以下结构：
-
-**输出文件：** `社会面貌.md`
+**Output file:** `plots.md`
 
 ```markdown
-# 社会面貌
+# Key Plots
 
-## [时期名称]（[年份范围]）
+## Node 1: [Name]
+**Year:** [Year marker]
 
-### 政治格局
-[描述]
+**Event Narrative:**
+[500–800 words]
 
-### 人口族群结构
-[描述]
+**Key Characters:**
+- **[Name]**: [Identity], [Motivation], [Pivotal action]
 
-### 经济商贸
-[描述]
+**Turning Point Analysis:**
+[200–300 words]
 
-### 科技发展
-[描述]
-
-### 文艺文化
-[描述]
-
-### 阶层关系
-[描述]
-
-### 民众日常生活
-[描述]
-
-### 婚恋家庭习俗
-[描述]
-
-### 信仰民俗
-[描述]
-
-### 主流思想思潮
-[描述]
-
-### 大众集体心理
-[描述]
-
-### 治安秩序
-[描述]
-
-### 信息传播方式
-[描述]
-
-### 生存风险
-[描述]
-
-### 时代审美
-[描述]
+**Historical Ripple:**
+[100–200 words]
 
 ---
 
-[后续时期依此格式重复...]
+[Repeat for each node...]
 ```
 
-### 模块四：编年史整合输出
+**Checkpoint:** Show a preview of the first two nodes. Confirm narrative style before continuing.
 
-**输入：** 读取三个基础文件作为素材锚点。
+---
 
-**字数规则：**
+### Module 3: Social Portrait
 
-- 用户指定字数时，按指定字数生成（±10%）
-- 用户未指定时，默认约十万字（100,000字）
+**Goal:** Generate a panoramic social description for each era node across 16 dimensions.
 
-**整合原则：**
+**Input:** Read `world.md` (timeline) and `plots.md` (events).
 
-1. 以世界观框架为骨架，确保叙事逻辑连贯
-2. 以关键情节为血肉，丰富叙事细节和人物刻画
-3. 以社会面貌为背景全景，增强世界观沉浸感
-4. 三个素材锚点的内容必须有机融合，不可简单拼接
-5. 需补充素材锚点中未明确但叙事必要的过渡段落
-6. 保持叙事风格的一致性（史诗/纪实/传记体自选其一，默认为史诗体）
-7. 章节划分以时间节点为自然分界，每章聚焦一个关键时期
+**For each era node, generate content across these 16 dimensions:**
 
-**输出文件：** `编年史.md`
+#### The 16 Dimensions
 
-文档结构：
+| # | Dimension | Core Focus |
+|---|-----------|-----------|
+| 1 | Political Landscape | Governance type, power structure, ruling factions, legal system, foreign relations |
+| 2 | Demographics | Races / groups, population trends, inter-group relations, settlement patterns |
+| 3 | Economy & Trade | Economic form, key industries, trade networks, currency, wealth disparity |
+| 4 | Technology | Tool level, key innovations, knowledge transmission, tech-social interplay |
+| 5 | Arts & Culture | Literary/art forms, masterpieces, aesthetic paradigms, cultural identity |
+| 6 | Social Stratification | Class hierarchy, mobility channels, class relations, survival strategies |
+| 7 | Daily Life | Food/clothing/housing/transport, labor patterns, leisure, gender roles |
+| 8 | Marriage & Family | Marriage forms, family structure, gender power, wedding/funeral rites |
+| 9 | Beliefs & Customs | Religious systems, deity pantheons, rituals, folk beliefs |
+| 10 | Intellectual Currents | Philosophical systems, core values, schools of thought, intellectual change |
+| 11 | Collective Psychology | Social mood, collective fears/dreams, identity, conformity pressure |
+| 12 | Public Order | Crime, judiciary, private vs public justice, underground order |
+| 13 | Information Flow | Media, communication networks, censorship, information monopoly |
+| 14 | Existential Risks | Natural disasters, war, supernatural threats, resource scarcity |
+| 15 | Era Aesthetics | Beauty ideals, body culture, architecture, fashion, rhetoric |
+| 16 | Ecology & Nature | Environment, resource cycles, human-nature relationship |
+
+#### Dimension Interdependencies
+
+Ensure logical coherence across dimensions:
+
+- **Economy → Stratification → Politics** (base structure → superstructure)
+- **Beliefs → Intellectual Currents → Aesthetics** (spiritual unity)
+- **Risks → Order → Information** (order maintenance triangle)
+- **Demographics → Family → Daily Life** (social reproduction chain)
+- **Technology → Economy → Arts** (technological diffusion chain)
+
+**Output file:** `society.md`
+
 ```markdown
-# [世界观名称]编年史
+# Social Portraits
 
-## 前言
-[世界观概述、编年史主旨，200-300字]
+## [Era Name] ([Year Range])
 
-## 第一章 [时期/事件名称]
-[融合三大素材的叙事内容]
+### Political Landscape
+[Content]
 
-## 第二章 [时期/事件名称]
-[融合三大素材的叙事内容]
+### Demographics
+[Content]
+
+### Economy & Trade
+[Content]
+
+### Technology
+[Content]
+
+### Arts & Culture
+[Content]
+
+### Social Stratification
+[Content]
+
+### Daily Life
+[Content]
+
+### Marriage & Family
+[Content]
+
+### Beliefs & Customs
+[Content]
+
+### Intellectual Currents
+[Content]
+
+### Collective Psychology
+[Content]
+
+### Public Order
+[Content]
+
+### Information Flow
+[Content]
+
+### Existential Risks
+[Content]
+
+### Era Aesthetics
+[Content]
+
+### Ecology & Nature
+[Content]
+
+---
+
+[Repeat for each era node...]
+```
+
+**Checkpoint:** Show one era's portrait as preview. Ask about depth and emphasis before proceeding.
+
+---
+
+### Module 4: Chronicle Integration
+
+**Goal:** Synthesize all three source files into a single, cohesive chronicle document.
+
+**Input:** Read `world.md`, `plots.md`, `society.md`.
+
+**Length rules:**
+- User-specified: generate within ±10% of target
+- Default: ~100,000 characters (Chinese) / ~50,000 words (English)
+
+**Integration principles:**
+
+1. Use `world.md` as the narrative skeleton — ensure logical flow
+2. Use `plots.md` as narrative flesh — enrich character arcs and dramatic tension
+3. Use `society.md` as world backdrop — enhance immersion and verisimilitude
+4. **Organic fusion, not concatenation** — weave source material into seamless prose
+5. Add transitional passages where the source files have narrative gaps
+6. Maintain consistent narrative voice (epic / documentary / biographical — user chooses, default: epic)
+7. Chapter division follows timeline nodes — each chapter centers on one key period
+
+**Output file:** `chronicle.md`
+
+```markdown
+# [World Name] Chronicle
+
+## Preface
+[World overview, chronicle purpose — 200–300 words]
+
+## Chapter 1: [Era / Event Name]
+[Integrated narrative from all three source files]
+
+## Chapter 2: [Era / Event Name]
+[Integrated narrative from all three source files]
 
 ...
 
-## 尾声
-[总结性收束，300-500字]
+## Epilogue
+[Concluding reflection — 300–500 words]
 
 ---
 
-*本编年史由世界观编年史生成系统自动创建*
-*生成时间：[YYYY-MM-DD]*
+*Generated by Worldview Chronicle Generation System*
+*Date: [YYYY-MM-DD]*
 ```
 
-## 文件结构
+---
+
+## File Structure
+
+### Input / Output Files
 
 ```
-世界观项目目录/
-├── 世界观框架.md      # 模块一输出：主体框架与时间轴
-├── 关键情节.md        # 模块二输出：各节点叙事内容
-├── 社会面貌.md        # 模块三输出：十六维度社会全景
-└── 编年史.md          # 模块四输出：整合后的完整编年史
+project-directory/
+├── world.md         # Module 1 output: Framework + timeline
+├── plots.md         # Module 2 output: Node narratives
+├── society.md       # Module 3 output: 16-dimension social portraits
+└── chronicle.md     # Module 4 output: Integrated chronicle
 ```
 
-## 使用指南
+### Skill Resources
 
-### 触发方式
+```
+worldview-chronicle-generator/
+├── SKILL.md                              # This file — main entry point
+├── references/
+│   └── social-dimensions-guide.md        # Detailed 16-dimension reference
+└── scripts/
+    └── validate.py                      # Project validation + word count
+```
 
-当用户提出以下意图时使用本技能：
+---
 
-- "帮我构建一个世界观"
-- "设计一个故事的世界观"
-- "生成编年史"
-- "世界观编年史"
-- "构建奇幻/科幻世界观"
+## Interaction Guidelines
 
-### 工作流程
+### Pacing
 
-1. **交互输入** — 询问世界观类型、时间跨度、核心主题
-2. **模块执行** — 按四个模块顺序执行，每完成一个模块即输出文件
-3. **中间确认** — 每个模块完成后询问用户是否满意，可在此调整方向
-4. **最终输出** — 整合三个基础文件，生成指定字数的编年史文档
+- Present one module at a time; do not dump all four modules at each interaction
+- After each module, pause for user confirmation before proceeding
+- If the user wants changes at any checkpoint, revise the current module before moving on
 
-### 中间确认点
+### Style Control Commands
 
-- 模块一完成后：展示世界观框架和时间轴，询问是否需要调整节点数量或设定方向
-- 模块二完成后：展示前两个节点的情节预览，询问叙事风格是否满意
-- 模块三完成后：展示一个时期的社会面貌预览，询问各维度的深度和侧重点
+| User says | Effect |
+|-----------|--------|
+| "More epic" / "更史诗感" | Increase grand narrative, tragic heroism, mythic resonance |
+| "More documentary" / "更纪实感" | Add archival, historiographic, field-report tone |
+| "More literary" / "更文学性" | Deepen psychological description and scene painting |
+| "Emphasize [era]" / "调整时期侧重" | Expand or condense specific periods |
+| "Length X" / "字数X" | Set target character/word count |
 
-### 风格控制
+### Quality Standards
 
-用户可通过以下指令控制输出风格：
+- Each timeline node should feel distinct in tone and era atmosphere
+- Characters must have clear motivations and consequences
+- Social dimensions must be internally consistent within each era
+- The final chronicle should read as a unified narrative, not a patchwork
+- Avoid info-dumping — weave worldbuilding into narrative naturally
 
-- "更史诗感" — 增加宏大叙事和英雄悲歌元素
-- "更纪实感" — 增强史料考证和田野调查风格
-- "更文学性" — 增强心理描写和场景刻画
-- "调整时期侧重" — 对特定时期增加或减少篇幅
+### Language Adaptation
+
+- Generate in the user's language (Chinese or English)
+- Match vocabulary density and prose style to the target language
+- Chinese: default ~100,000 characters for full chronicle
+- English: default ~50,000 words for full chronicle
+
+## Implementation Notes
+
+- This skill does not require any specific platform, tool, or connector — it operates entirely through text generation and file I/O
+- All output is Markdown for maximum portability
+- The agent should use standard file system operations (read / write / edit) to manage output files
+- No external APIs, databases, or services required
+- Works in any agent environment with basic file system access
