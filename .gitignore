@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# WorkBuddy
+.workbuddy/
+.codebuddy/
+*.codebuddy
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+
+# Large binary files (tracked via Git LFS instead)
+*.zip
+*.tar.gz
