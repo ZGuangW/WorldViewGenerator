@@ -1,7 +1,7 @@
 ---
 name: worldview-chronicle-generator
 version: 1.0.0
-description: Automated worldview and chronicle generation system for storytelling. Interactively collects world type (fantasy, sci-fi, historical alternate, etc.) and timeline span, then generates a complete worldview chronicle through four modules — world framework, key plots, 16-dimension social portrait, and final integrated chronicle document. Trigger phrases - worldview building, chronicle generation, world design, story worldview, worldbuilding, worldview framework, 世界观构建, 编年史生成, 世界观设计, 世界观文档.
+description: 世界观构建, 编年史生成, 世界观设计, 世界观文档, Automated worldview and chronicle generation system for storytelling. Interactively collects world type (fantasy, sci-fi, historical alternate, etc.) and timeline span, then generates a complete worldview chronicle through four modules — world framework, key plots, 16-dimension social portrait, and final integrated chronicle document. Trigger phrases - worldview building, chronicle generation, world design, story worldview, worldbuilding, worldview framework.
 tags: [creative-writing, worldbuilding, storytelling, chronicle, lore]
 ---
 
